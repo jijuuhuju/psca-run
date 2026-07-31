@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psca Runner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>Psca Runner</h1>
+
+<div class="box">
+    <h2>ファイルを選択</h2>
+
+    <input type="file" id="file" accept=".txt,.psca">
+
+    <br><br>
+
+    <button id="run">実行</button>
+</div>
+
+
+<script>
+let pscaCode = "";
+
+const fileInput = document.getElementById("file");
+
+fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+        pscaCode = reader.result;
+        console.log("Psca読み込み完了");
+    };
+
+    reader.readAsText(file);
+});
+
+
+document.getElementById("run").onclick = () => {
+
+    if (pscaCode === "") {
+        alert("Pscaファイルを選択してください");
+        return;
+    }
+
+    localStorage.setItem("pscaCode", pscaCode);
+
+    location.href = "run.html";
+};
+</script>
+
+</body>
+</html>
