@@ -1,0 +1,32 @@
+body {
+    font-family: sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 30px;
+}
+
+.box {
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 30px;
+    display: inline-block;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#stage {
+    width: 800px;
+    height: 600px;
+    margin: auto;
+    border: 2px solid black;
+    position: relative;
+    overflow: hidden;
+}
