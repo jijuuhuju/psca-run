@@ -1,60 +1,88 @@
-async function runPsca() {
+const code = localStorage.getItem("pscaCode");
 
-    while (i < lines.length) {
+const stage = document.getElementById("stage");
 
-        let line = lines[i].trim();
-
-        if (line === "START") {
-            i++;
-            continue;
-        }
-
-        if (line === "END") {
-            break;
-        }
-
-
-        if (line.startsWith("print")) {
-
-            let text = line
-                .replace('print("', "")
-                .replace('")', "");
-
-            const p = document.createElement("p");
-            p.textContent = text;
-
-            stage.appendChild(p);
-
-            // 表示を反映させる
-            await new Promise(resolve => setTimeout(resolve, 0));
-        }
-
-
-        if (line.startsWith("wait")) {
-
-            let seconds = Number(
-                line.replace("wait ", "")
-                    .replace(" seconds", "")
-            );
-
-            await new Promise(resolve =>
-                setTimeout(resolve, seconds * 1000)
-            );
-        }
-
-
-        if (line.startsWith("alert")) {
-
-            let text = line
-                .replace('alert("', "")
-                .replace('")', "");
-
-            alert(text);
-        }
-
-
-        i++;
-    }
+if (!code) {
+    alert("Pscaコードがありません");
 }
 
-runPsca();
+const lines = code.split("\n");
+
+let i = 0;
+
+while (i < lines.length) {
+
+    let line = lines[i].trim();
+
+    // START
+    if (line === "START") {
+        i++;
+        continue;
+    }
+
+    // END
+    if (line === "END") {
+        break;
+    }
+
+
+    // print()
+    if (line.startsWith("print")) {
+
+        let text = line
+            .replace('print("', "")
+            .replace('")', "");
+
+        const p = document.createElement("p");
+        p.textContent = text;
+
+        stage.appendChild(p);
+    }
+
+
+    // alert()
+    if (line.startsWith("alert")) {
+
+        let text = line
+            .replace('alert("', "")
+            .replace('")', "");
+
+        alert(text);
+    }
+
+
+    // BUTTON
+    if (line === "BUTTON") {
+
+        i++;
+
+        let name = "";
+        let id = "";
+
+        while (i < lines.length && lines[i].trim() !== "") {
+
+            let part = lines[i].trim();
+
+            if (part.startsWith("name")) {
+                name = part.split("=")[1].trim().replaceAll('"',"");
+            }
+
+            if (part.startsWith("id")) {
+                id = part.split("=")[1].trim().replaceAll('"',"");
+            }
+
+            i++;
+        }
+
+
+        let button = document.createElement("button");
+
+        button.textContent = name;
+        button.id = id;
+
+        stage.appendChild(button);
+    }
+
+
+    i++;
+}
